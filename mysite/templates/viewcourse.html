@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<script>
+function rating()
+{
+var xmlhttp;
+str=document.getElementById("ratebox").value;
+cid=document.getElementById("cid").value;
+if (str.length==0)
+  { 
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("ratebox").value=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/submitrating/?score="+str+"&cid="+cid,true);
+xmlhttp.send();
+}
+</script>
+
+</head>
+
+<body>
+<a href="/home/" >home</a><br /><br />
+<input type="hidden" id="cid" value="{{cid}}"  /> 
+<p>course::</p>
+{{cid}}
+<br  /><br  />
+<input type="text" id="ratebox"  /><br  />
+<input type="button" onclick="rating()" value=" rate " />
+<br  />
+<a href="/forum/{{cid}}" >forums</a>
+<p>lessons::</p>
+<ul>
+{% for row in results %}
+    <p>lesson :: {{row.1}}</p>
+    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    submitted by ::<a href="/byuser/{{row.7}} ">{{row.7}}<br  />
+    <a href="/static/lessons/{{row.8}}/{{row.6}}">download lesson</a><br  />
+    {% ifequal row.5 'video' %}
+    		<video width="320" height="240" controls>
+  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
+  			Your browser does not support the video tag.
+			</video>
+    {% endifequal %}
+{% endfor %}
+</ul>
+<br  /><br  />
+<p>contributions by users::</p>
+<ul>
+{% for row in newresults %}
+    <p>lesson :: {{row.1}}</p>
+    <b>{{row.2}}</b><br  />&nbsp;&nbsp;{{row.3}}<br  />&nbsp;&nbsp;{{row.4}}<br  />&nbsp;&nbsp;{{row.5}}<br  />
+    submitted by ::<a href="/byuser/{{row.7}} "> {{row.7}}<br  />
+    <a href="/static/lessons/{{row.8}}/{{row.6}}">view lesson</a><br  />
+    {% ifequal row.5 'video' %}
+    		<video width="320" height="240" controls>
+  			<source src="/static/lessons/{{row.8}}/{{row.6}}" type="video/mp4">
+  			Your browser does not support the video tag.
+			</video>
+    {% endifequal %}
+{% endfor %}
+</ul>
+<br  /><br  />
+
+</body>
+</html>

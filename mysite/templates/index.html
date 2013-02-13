@@ -1,0 +1,18 @@
+<html>
+<head>
+</head>
+<body>
+{% if msg %}
+    <p>{{msg}}</p>
+    <a href="/createcourse/">create a new course</a><br /><br />
+    <a href="/logout/">logout</a><br /><br />
+{% else %}
+	<a href="/signup/" >signup</a><br /><br />
+	<a href="/login/" >login</a><br /><br />
+{% endif %}
+
+<a href="/allcourses/" >allcourses</a><br /><br />
+homepage
+
+</body>
+</html>
